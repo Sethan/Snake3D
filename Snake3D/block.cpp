@@ -9,7 +9,6 @@ class block
         short int z;
         bool edible;
         block nBlock;
-        block pBlock;
     public:
         initializer(short int a, short int b, short int c, bool t): this.x(a), this.y(b), this.z(c), this.edible(t){ }
         void updateX(short int a)
@@ -44,14 +43,7 @@ class block
         {
             this.nBlock=b;
         }
-        void setPrevious(block b)
-        {
-            this.pBlock=b;
-        }
-        block getPrevious()
-        {
-            return this.pBlock;
-        }
+
         block getNext()
         {
             return this.nBlock;
