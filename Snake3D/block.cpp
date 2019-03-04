@@ -8,20 +8,20 @@ class block
         short int y;
         short int z;
         bool edible;
-        block nBlock;
+        block* nBlock;
     public:
-        initializer(short int a, short int b, short int c, bool t): this.x(a), this.y(b), this.z(c), this.edible(t){ }
+        blocker(short int a, short int b, short int c, bool t): this.x(a), this.y(b), this.z(c), this.edible(t){ }
         void updateX(short int a)
         {
             this.x=a;
         }
         void updateY(short int a)
         {
-            this.x=a;
+            this.y=a;
         }
         void updateZ(short int a)
         {
-            this.x=a;
+            this.z=a;
         }
         short int getX()
         {
