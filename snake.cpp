@@ -20,9 +20,13 @@ class snake
         }
         void add()
         {
+            int a=2*(*tail).getX()-(*(tail-1)).getX();
+            int b=2*(*tail).getY()-(*(tail-1)).getY();
+            int c=2*(*tail).getZ()-(*(tail-1)).getZ();
             head = (block *)realloc(head, (length+1) * sizeof(block));
             tail = head+length;
-            *tail= block(14,16,0);
+
+            *tail= block(a,b,c);
             length++;
         }
         void moveForward(int x,int y,int z)
@@ -49,5 +53,17 @@ class snake
             {
                 cout<<(*p).getX()<<(*p).getY()<<(*p).getZ()<<"\n";
             }
+        }
+        block* getHead()
+        {
+            return head;
+        }
+        block* getTail()
+        {
+            return tail;
+        }
+        short int getLength()
+        {
+            return length;
         }
 };

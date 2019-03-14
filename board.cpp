@@ -12,10 +12,6 @@ class board
         board()
         {
             currentDirection=STOP;
-            player.moveForward(10,10,0);
-            player.moveForward(9,9,0);
-            player.add();
-            player.printsnake();
         }
         void setDirectionUP()
         {
@@ -41,6 +37,54 @@ class board
         {
             currentDirection=OUT;
         }
+        void nextMove()
+        {
+            int x=(*player.getHead()).getX();
+            int y=(*player.getHead()).getY();
+            int z=(*player.getHead()).getZ();
+            if(currentDirection==LEFT)
+            {
+                player.moveForward(x-1,y,z);
+            }
+            else if(currentDirection==RIGHT)
+            {
+                player.moveForward(x+1,y,z);
+            }
+            else if(currentDirection==UP)
+            {
+                player.moveForward(x,y+1,z);
+            }
+            else if(currentDirection==DOWN)
+            {
+                player.moveForward(x,y-1,z);
+            }
+        }
+        void updateMap()
+        {
+            for(int x=0;x<49;x++)
+            {
+                for(int y=0;y<49;y++)
+                {
+                    for(int z=0;z<49;z++)
+                    {
+                        snakemap[x][y][z]=0;
+                    }
+                }
+            }
 
+            for(block* p=player.getHead();p<player.getTail()+1;p++)
+            {
+                snakemap[(*p).getX()][(*p).getY()][(*p).getZ()]=1;
+            }
+            if(rand()%2==0)
+            {
+                player.add();
+            }
+
+        }
+        int getMapState(int x,int y,int z)
+        {
+            return snakemap[x][y][z];
+        }
 };
 
