@@ -4,7 +4,7 @@ int main(int argc, char** argv)
 {
     // Initialize the random number generator
     srand (time(NULL));
-
+    enum Direction{STOP, UP, DOWN, LEFT, RIGHT, IN, OUT};
     // Initialize SDL
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -32,23 +32,44 @@ int main(int argc, char** argv)
                 {
                     running = false;
                 }
-                if (strcmp(key, "A") == 0)
-                {
-                    field.setDirectionLEFT();
-                }
                 if (strcmp(key, "D") == 0)
                 {
-                    field.setDirectionRIGHT();
+                    if(field.currentDirection==LEFT)
+                    {
+                        field.setDirectionDOWN();
+                    }
+                    else if(field.currentDirection==UP)
+                    {
+                        field.setDirectionLEFT();
+                    }
+                    else if(field.currentDirection==RIGHT)
+                    {
+                        field.setDirectionUP();
+                    }
+                    else if(field.currentDirection==DOWN)
+                    {
+                        field.setDirectionRIGHT();
+                    }
                 }
-                if (strcmp(key, "S") == 0)
+                if (strcmp(key, "A") == 0)
                 {
-                    field.setDirectionUP();
+                    if(field.currentDirection==LEFT)
+                    {
+                        field.setDirectionUP();
+                    }
+                    else if(field.currentDirection==UP)
+                    {
+                        field.setDirectionRIGHT();
+                    }
+                    else if(field.currentDirection==RIGHT)
+                    {
+                        field.setDirectionDOWN();
+                    }
+                    else if(field.currentDirection==DOWN)
+                    {
+                        field.setDirectionLEFT();
+                    }
                 }
-                if (strcmp(key, "W") == 0)
-                {
-                    field.setDirectionDOWN();
-                }
-
             }
             else if (event.type == SDL_QUIT)
             {
@@ -70,14 +91,41 @@ int main(int argc, char** argv)
                 for(int y=0;y<49;y++)
                 {
                     SDL_Rect box = {10*x,10*y,10,10};
-                    if(field.getMapState(x,y,0)==1)
+                    if(field.checkPlaneXY())
                     {
-                        SDL_RenderFillRect(renderer, &box);
+                        if(field.getMapState(x,y,field.getDepth())==1)
+                        {
+                            SDL_RenderFillRect(renderer, &box);
+                        }
+                        else
+                        {
+                            SDL_RenderDrawRect(renderer, &box);
+                        }
                     }
-                    else
+
+                    if(field.checkPlaneXZ())
                     {
-                        SDL_RenderDrawRect(renderer, &box);
+                        if(field.getMapState(x,field.getDepth(),y)==1)
+                        {
+                            SDL_RenderFillRect(renderer, &box);
+                        }
+                        else
+                        {
+                            SDL_RenderDrawRect(renderer, &box);
+                        }
                     }
+                    if(field.checkPlaneYZ())
+                    {
+                        if(field.getMapState(field.getDepth(),x,y)==1)
+                        {
+                            SDL_RenderFillRect(renderer, &box);
+                        }
+                        else
+                        {
+                            SDL_RenderDrawRect(renderer, &box);
+                        }
+                    }
+
                 }
             }
             SDL_RenderPresent(renderer);
