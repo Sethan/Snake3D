@@ -6,30 +6,26 @@ class board
         snake player;
         int snakemap[49][49][49];
         enum Direction{STOP, UP, DOWN, LEFT, RIGHT, IN, OUT};
-        enum Plane{XY,XZ,YZ};
-        Plane currentPlane;
     public:
         Direction currentDirection;
         board()
         {
-            currentDirection=UP;
-            currentPlane=XY;
+            currentDirection=RIGHT;
+            player.add();
+            player.add();
+            nextMove();
+        }
+        Direction getDirection()
+        {
+            return currentDirection;
         }
         void setDirectionUP()
         {
             currentDirection=UP;
-            if(currentPlane==XZ)
-            {
-                currentPlane=XY;
-            }
         }
         void setDirectionDOWN()
         {
             currentDirection=DOWN;
-            if(currentPlane==XZ)
-            {
-                currentPlane=XY;
-            }
         }
         void setDirectionLEFT()
         {
@@ -42,63 +38,21 @@ class board
         void setDirectionIN()
         {
             currentDirection=IN;
-            if(currentPlane==XY)
-            {
-                currentPlane=XZ;
-            }
         }
         void setDirectionOUT()
         {
             currentDirection=OUT;
-            if(currentPlane==XY)
-            {
-                currentPlane=XZ;
-            }
-        }
-        void setPlaneXY()
-        {
-            currentPlane=XY;
-        }
-        void setPlaneXZ()
-        {
-            currentPlane=XZ;
-        }
-        void setPlaneYZ()
-        {
-            currentPlane=YZ;
-        }
-        bool checkPlaneXY()
-        {
-            return currentPlane==XY;
-        }
-        bool checkPlaneXZ()
-        {
-            return currentPlane==XZ;
-        }
-        bool checkPlaneYZ()
-        {
-            return currentPlane==YZ;
         }
         int getDepth()
         {
-            if(currentPlane==XY)
-            {
-                return (*player.getHead()).getZ();
-            }
-            else if(currentPlane==XZ)
-            {
-                return (*player.getHead()).getY();
-            }
-            else
-            {
-                return (*player.getHead()).getX();
-            }
+            return (*player.getHead()).getZ();
         }
         void nextMove()
         {
             int x=(*player.getHead()).getX();
             int y=(*player.getHead()).getY();
             int z=(*player.getHead()).getZ();
+
             if(currentDirection==LEFT)
             {
                 x--;
@@ -123,9 +77,18 @@ class board
             {
                 z++;
             }
-            if(getMapState(x,y,z)!=1&&!getOutOfBounds(x,y,z))
+            if(getMapState(x,y,z)==0&&!getOutOfBounds(x,y,z))
             {
                 player.moveForward(x,y,z);
+            }
+            else if(getMapState(x,y,z)==3)
+            {
+                player.add();
+                player.moveForward(x,y,z);
+            }
+            else
+            {
+                currentDirection=STOP;
             }
         }
         void updateMap()
@@ -136,20 +99,24 @@ class board
                 {
                     for(int z=0;z<49;z++)
                     {
-                        snakemap[x][y][z]=0;
+                        if(snakemap[x][y][z]!=3)
+                        {
+                           snakemap[x][y][z]=0;
+                        }
+                        if(z==getDepth())
+                        {
+                            if((rand()%494949==0))
+                            {
+                                snakemap[x][y][z]=3;
+                            }
+                        }
                     }
                 }
             }
-
             for(block* p=player.getHead();p<player.getTail()+1;p++)
             {
                 snakemap[(*p).getX()][(*p).getY()][(*p).getZ()]=1;
             }
-            if(rand()%2==0)
-            {
-                player.add();
-            }
-
         }
         int getMapState(int x,int y,int z)
         {

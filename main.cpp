@@ -46,7 +46,7 @@ int main(int argc, char** argv)
                     {
                         field.setDirectionUP();
                     }
-                    else if(field.currentDirection==DOWN)
+                    else
                     {
                         field.setDirectionRIGHT();
                     }
@@ -65,10 +65,18 @@ int main(int argc, char** argv)
                     {
                         field.setDirectionDOWN();
                     }
-                    else if(field.currentDirection==DOWN)
+                    else
                     {
                         field.setDirectionLEFT();
                     }
+                }
+                if (strcmp(key, "W") == 0)
+                {
+                    field.setDirectionOUT();
+                }
+                if (strcmp(key, "S") == 0)
+                {
+                    field.setDirectionIN();
                 }
             }
             else if (event.type == SDL_QUIT)
@@ -80,8 +88,8 @@ int main(int argc, char** argv)
 	    new_time = SDL_GetTicks();
 	    if(new_time - old_time > change_color_time)
         {
-            field.updateMap();
             field.nextMove();
+            field.updateMap();
             SDL_Event event;
             SDL_SetRenderDrawColor(renderer,255,255,255,0);
             SDL_RenderClear(renderer);
@@ -90,51 +98,30 @@ int main(int argc, char** argv)
             {
                 for(int y=0;y<49;y++)
                 {
+                    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
                     SDL_Rect box = {10*x,10*y,10,10};
-                    if(field.checkPlaneXY())
+                    if(field.getMapState(x,y,field.getDepth())==1)
                     {
-                        if(field.getMapState(x,y,field.getDepth())==1)
-                        {
-                            SDL_RenderFillRect(renderer, &box);
-                        }
-                        else
-                        {
-                            SDL_RenderDrawRect(renderer, &box);
-                        }
+                        SDL_RenderFillRect(renderer, &box);
                     }
-
-                    if(field.checkPlaneXZ())
+                    else if(field.getMapState(x,y,field.getDepth())==3)
                     {
-                        if(field.getMapState(x,field.getDepth(),y)==1)
-                        {
-                            SDL_RenderFillRect(renderer, &box);
-                        }
-                        else
-                        {
-                            SDL_RenderDrawRect(renderer, &box);
-                        }
+                        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                        SDL_RenderFillRect(renderer, &box);
                     }
-                    if(field.checkPlaneYZ())
+                    else
                     {
-                        if(field.getMapState(field.getDepth(),x,y)==1)
-                        {
-                            SDL_RenderFillRect(renderer, &box);
-                        }
-                        else
-                        {
-                            SDL_RenderDrawRect(renderer, &box);
-                        }
+                        SDL_RenderDrawRect(renderer, &box);
                     }
-
                 }
             }
-            SDL_RenderPresent(renderer);
-            old_time = new_time;
+
+        SDL_RenderPresent(renderer);
+        old_time = new_time;
         }
 
 
     }
-
     // Release any of the allocated resources
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
