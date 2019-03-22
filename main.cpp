@@ -19,7 +19,7 @@ int main(int argc, char** argv)
 
     bool running = true;
     SDL_Event event;
-    Uint32 old_time = 0, change_color_time = 100, new_time;
+    Uint32 old_time = 0, change_color_time = 125, new_time;
     while (running)
     {
         // Check for various events (keyboard, mouse, touch, close)
@@ -88,7 +88,10 @@ int main(int argc, char** argv)
 	    new_time = SDL_GetTicks();
 	    if(new_time - old_time > change_color_time)
         {
-            field.nextMove();
+            if(!field.nextMove())
+            {
+                running =false;
+            }
             field.updateMap();
             SDL_Event event;
             SDL_SetRenderDrawColor(renderer,255,255,255,0);
@@ -102,6 +105,7 @@ int main(int argc, char** argv)
                     SDL_Rect box = {10*x,10*y,10,10};
                     if(field.getMapState(x,y,field.getDepth())==1)
                     {
+                        SDL_SetRenderDrawColor(renderer, rand()%255, rand()%255, rand()%255, 255);
                         SDL_RenderFillRect(renderer, &box);
                     }
                     else if(field.getMapState(x,y,field.getDepth())==3)

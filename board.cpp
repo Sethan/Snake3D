@@ -5,6 +5,8 @@ class board
     private:
         snake player;
         int snakemap[49][49][49];
+        int limit=1;
+        int current=1;
         enum Direction{STOP, UP, DOWN, LEFT, RIGHT, IN, OUT};
     public:
         Direction currentDirection;
@@ -47,7 +49,7 @@ class board
         {
             return (*player.getHead()).getZ();
         }
-        void nextMove()
+        bool nextMove()
         {
             int x=(*player.getHead()).getX();
             int y=(*player.getHead()).getY();
@@ -80,15 +82,19 @@ class board
             if(getMapState(x,y,z)==0&&!getOutOfBounds(x,y,z))
             {
                 player.moveForward(x,y,z);
+                return true;
             }
             else if(getMapState(x,y,z)==3)
             {
                 player.add();
                 player.moveForward(x,y,z);
+                current--;
+                return true;
             }
             else
             {
                 currentDirection=STOP;
+                return false;
             }
         }
         void updateMap()
@@ -105,9 +111,11 @@ class board
                         }
                         if(z==getDepth())
                         {
-                            if((rand()%494949==0))
+                            if(current<limit)
                             {
-                                snakemap[x][y][z]=3;
+                                current++;
+                                cout<<current;
+                                snakemap[rand()%49][rand()%49][z]=3;
                             }
                         }
                     }
