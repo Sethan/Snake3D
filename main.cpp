@@ -2,19 +2,14 @@
 #include "board.cpp"
 int main(int argc, char** argv)
 {
-    // Initialize the random number generator
-    srand (time(NULL));
-    enum Direction{STOP, UP, DOWN, LEFT, RIGHT, IN, OUT};
     // Initialize SDL
     SDL_Init(SDL_INIT_VIDEO);
 
     // Open a 800x600 window and define an accelerated renderer
     SDL_Window* window = SDL_CreateWindow("SDL2 & Code::Blocks", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                          490, 490, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+                                          490, 530, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     board field;
-
-    // Initial renderer color
 
 
     bool running = true;
@@ -28,21 +23,26 @@ int main(int argc, char** argv)
             if (event.type == SDL_KEYDOWN)
             {
                 const char* key = SDL_GetKeyName(event.key.keysym.sym);
+                if (field.currentDirection==board::STOP)
+                {
+                    break;
+                }
                 if (strcmp(key, "Q") == 0 || strcmp(key, "Escape") == 0)
                 {
                     running = false;
                 }
+
                 if (strcmp(key, "D") == 0)
                 {
-                    if(field.currentDirection==LEFT)
+                    if(field.currentDirection==board::LEFT)
                     {
                         field.setDirectionDOWN();
                     }
-                    else if(field.currentDirection==UP)
+                    else if(field.currentDirection==board::UP)
                     {
                         field.setDirectionLEFT();
                     }
-                    else if(field.currentDirection==RIGHT)
+                    else if(field.currentDirection==board::RIGHT)
                     {
                         field.setDirectionUP();
                     }
@@ -53,15 +53,15 @@ int main(int argc, char** argv)
                 }
                 if (strcmp(key, "A") == 0)
                 {
-                    if(field.currentDirection==LEFT)
+                    if(field.currentDirection==board::LEFT)
                     {
                         field.setDirectionUP();
                     }
-                    else if(field.currentDirection==UP)
+                    else if(field.currentDirection==board::UP)
                     {
                         field.setDirectionRIGHT();
                     }
-                    else if(field.currentDirection==RIGHT)
+                    else if(field.currentDirection==board::RIGHT)
                     {
                         field.setDirectionDOWN();
                     }
@@ -88,10 +88,7 @@ int main(int argc, char** argv)
 	    new_time = SDL_GetTicks();
 	    if(new_time - old_time > change_color_time)
         {
-            if(!field.nextMove())
-            {
-                running =false;
-            }
+            field.nextMove();
             field.updateMap();
             SDL_Event event;
             SDL_SetRenderDrawColor(renderer,255,255,255,0);
@@ -105,12 +102,12 @@ int main(int argc, char** argv)
                     SDL_Rect box = {10*x,10*y,10,10};
                     if(field.getMapState(x,y,field.getDepth())==1)
                     {
-                        SDL_SetRenderDrawColor(renderer, rand()%255, rand()%255, rand()%255, 255);
+                        SDL_SetRenderDrawColor(renderer, rand()%40, rand()%150+25, rand()%40, 255);
                         SDL_RenderFillRect(renderer, &box);
                     }
                     else if(field.getMapState(x,y,field.getDepth())==3)
                     {
-                        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                        SDL_SetRenderDrawColor(renderer, rand()%150+100, 50, 50, 255);
                         SDL_RenderFillRect(renderer, &box);
                     }
                     else

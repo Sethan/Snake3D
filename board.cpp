@@ -1,5 +1,6 @@
 #include "game.h"
 #include "snake.cpp"
+
 class board
 {
     private:
@@ -7,8 +8,8 @@ class board
         int snakemap[49][49][49];
         int limit=1;
         int current=1;
-        enum Direction{STOP, UP, DOWN, LEFT, RIGHT, IN, OUT};
     public:
+        enum Direction{STOP, UP, DOWN, LEFT, RIGHT, IN, OUT};
         Direction currentDirection;
         board()
         {
@@ -49,7 +50,7 @@ class board
         {
             return (*player.getHead()).getZ();
         }
-        bool nextMove()
+        void nextMove()
         {
             int x=(*player.getHead()).getX();
             int y=(*player.getHead()).getY();
@@ -82,19 +83,16 @@ class board
             if(getMapState(x,y,z)==0&&!getOutOfBounds(x,y,z))
             {
                 player.moveForward(x,y,z);
-                return true;
             }
             else if(getMapState(x,y,z)==3)
             {
                 player.add();
                 player.moveForward(x,y,z);
                 current--;
-                return true;
             }
             else
             {
-                currentDirection=STOP;
-                return false;
+                Restart();
             }
         }
         void updateMap()
@@ -114,7 +112,7 @@ class board
                             if(current<limit)
                             {
                                 current++;
-                                cout<<current;
+
                                 snakemap[rand()%49][rand()%49][z]=3;
                             }
                         }
@@ -137,6 +135,18 @@ class board
                 return true;
             }
             return false;
+        }
+
+        void Restart()
+        {
+            snake* newPlayer = new snake();
+            player = *newPlayer;
+
+            delete newPlayer;
+
+            currentDirection=RIGHT;
+            player.add();
+            player.add();
         }
 };
 

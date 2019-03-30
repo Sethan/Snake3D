@@ -1,6 +1,8 @@
 #include "game.h"
 #include "block.cpp"
+
 using namespace std;
+
 class snake
 {
     private:
@@ -10,13 +12,11 @@ class snake
     public:
         snake()
         {
-
             *head= block(14,14,0);
             block* p=head+1;
             *p= block(14,15,0);
             *tail= block(14,16,0);
             length=3;
-
         }
         void add()
         {
