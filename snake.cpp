@@ -17,6 +17,8 @@ class snake
             *p= block(14,15,0);
             *tail= block(14,16,0);
             length=3;
+
+            PrintInfo();
         }
         void add()
         {
@@ -28,6 +30,8 @@ class snake
 
             *tail= block(a,b,c);
             length++;
+
+            PrintInfo();
         }
         void moveForward(int x,int y,int z)
         {
@@ -47,13 +51,25 @@ class snake
             }
         }
 
-        void printsnake()
+        void PrintPosition()
         {
             for(block* p=head;p<tail+1;p++)
             {
                 cout<<(*p).getX()<<(*p).getY()<<(*p).getZ()<<"\n";
             }
         }
+
+        void PrintInfo()
+        {
+            if (system("CLS"))
+            {
+                system("clear");
+            }
+            cout << "Snake length: " << length << "\r";
+            cout << endl;
+            cout << "Blocks eaten: " << length - 5 << "\r";
+        }
+
         block* getHead()
         {
             return head;

@@ -7,3 +7,8 @@
 #include <time.h>
 #include <stdbool.h>
 #endif
+#ifdef __cplusplus__
+  #include <cstdlib>
+#else
+  #include <stdlib.h>
+#endif
