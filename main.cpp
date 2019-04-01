@@ -100,7 +100,7 @@ int main(int argc, char** argv)
 	//if field at the x and y with the heads z posisiton detects a 1 (meaning snake) a filled rectangle with a random green color is drawn
 	//if field at the x and y with the heads z posistion detects a 3 then an red square is drawn (as a symbol for the apple)
 	//else then an empty black box is drawn
-	//Then on the bottom of the screen a filled rectangle will be drawn if theMorrowind Review | A Moon-Sugar Fortified Experience™re is an apple at that z level with z=0 being most left and z=last being right
+	//Then on the bottom of the screen a filled rectangle will be drawn if is an apple at that z level with z=0 being most left and z=last being right
 	//after the for loop a filled green rectangle will be drawn on the bottom symbolizing the current depth of the snakes head, most left meaning its not deep and most right meaning most deep
 	//Lastly old_time is updated
 	if(new_time - old_time > change_time)
