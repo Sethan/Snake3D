@@ -15,7 +15,11 @@ int main(int argc, char** argv)
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 
+<<<<<<< HEAD
     //A boolean running set to true a SDL_Event and three Uint32 are used to create a running enviorment for the game,
+=======
+    //A boolean running set to true a SDL_Event and three Uint32 are used to create a running enviorment for the game, 
+>>>>>>> 878274530d07778b10787aea4d31e8c9fb4186b3
     bool running = true;
     SDL_Event event;
     Uint32 old_time = 0, change_time = 200, new_time;
@@ -23,7 +27,11 @@ int main(int argc, char** argv)
     {
         // Check for various events (keyboard, mouse, touch, close)
 	//The button q quits the game. A W D S, is used to change directions
+<<<<<<< HEAD
 	// A in effect changes the direction 90 degrees anticlockwise and D changes the direction 90 degrees clockwise.
+=======
+	// A in effect changes the direction 90 degrees anticlockwise and D changes the direction 90 degrees clockwise. 
+>>>>>>> 878274530d07778b10787aea4d31e8c9fb4186b3
 	// W and S sets the direction out and IN
 	//If the x is pressed the game also quits
         while (SDL_PollEvent(&event))
@@ -88,19 +96,32 @@ int main(int argc, char** argv)
                 running = false;
             }
         }
+<<<<<<< HEAD
 	//New time is given the value of current ticks
+=======
+	//New time is given the value of current ticks 
+>>>>>>> 878274530d07778b10787aea4d31e8c9fb4186b3
 	new_time = SDL_GetTicks();
 	//If the difference between old time and new time is larger than change time then the game renders
 	//first field.nextMove() is called to move the snake.
 	//Then the snakemap is updated
 	//Then the screen gets reset
+<<<<<<< HEAD
 	//A for looping over the mapSize (only in the x and y directions)
 	//A SDL_Rect box is created with the posistions of x and y timed with the modifier (so that they are correctly placed on
+=======
+	//A for looping over the mapSize (only in the x and y directions) 
+	//A SDL_Rect box is created with the posistions of x and y timed with the modifier (so that they are correctly placed on 
+>>>>>>> 878274530d07778b10787aea4d31e8c9fb4186b3
 	//screen) and given the widht and height equal to the modifier
 	//if field at the x and y with the heads z posisiton detects a 1 (meaning snake) a filled rectangle with a random green color is drawn
 	//if field at the x and y with the heads z posistion detects a 3 then an red square is drawn (as a symbol for the apple)
 	//else then an empty black box is drawn
+<<<<<<< HEAD
 	//Then on the bottom of the screen a filled rectangle will be drawn if there is an apple at that z level with z=0 being most left and z=last being right
+=======
+	//Then on the bottom of the screen a filled rectangle will be drawn if is an apple at that z level with z=0 being most left and z=last being right
+>>>>>>> 878274530d07778b10787aea4d31e8c9fb4186b3
 	//after the for loop a filled green rectangle will be drawn on the bottom symbolizing the current depth of the snakes head, most left meaning its not deep and most right meaning most deep
 	//Lastly old_time is updated
 	if(new_time - old_time > change_time)
@@ -148,7 +169,11 @@ int main(int argc, char** argv)
             old_time = new_time;
         }
     }
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 878274530d07778b10787aea4d31e8c9fb4186b3
     // Release any of the allocated resources when running=false
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
