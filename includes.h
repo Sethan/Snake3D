@@ -6,4 +6,5 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
+#include "windows.h"
 #endif
